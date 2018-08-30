@@ -13,6 +13,12 @@
 #' @return
 #' 
 #' @examples 
+#' dat2tib(data = cdisc_data, 
+#'         model = lm(aval ~ arm + age + sex),
+#'         outcome = aval,
+#'         trt = arm,
+#'         nest = param,
+#'         tran = "none")
 #' 
 #' @importFrom skimr skim
 #' @import emmeans
@@ -20,6 +26,7 @@
 #' @import tidyr
 #' @importFrom purrr map
 #' @import rlang
+#' @import tibble
 #' 
 #' @export
 dat2tib <- function(data, model, outcome, trt,
