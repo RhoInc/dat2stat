@@ -141,8 +141,15 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
                           spread(contrast, diff) )) %>%
       select(-c(data, mod, ref, summ, emm)) %>%
       unnest
+    
   }
-
+  
+  stat_txt <- gsub("\\{|\\}", "", stat_fmt)
+  comp_txt <- gsub("\\{|\\}", "", comp_fmt)
+  
+  attributes(mtab)$stat <- stat_txt
+  attributes(mtab)$comp <- comp_txt
+  
   return(mtab)
 
 }
