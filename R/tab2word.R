@@ -17,15 +17,36 @@
 #'
 #' @examples
 tab2word <- function(table, file, footer, colwid = 1){
-    tab <- regulartable(table) %>%
-    fontsize( size = 7, part = 'all') %>%
+  
+  n <- 3 #this needs to be number of groups
+  
+  head <- c("sep1", "sep2", "sep3", names(table)) %>% tidy %>%
+    mutate(names = c("", "", "", names(table)),
+           colA = c('', '', '', names(table)[1], rep(attributes(table)$stat, n), rep(attributes(table)$comp, n), rep('p-value', n))
+    )
+  
+ 
+  tab <- table %>%
+    regulartable(col_keys = c(names(table)[1], 
+                              'sep1', 
+                              names(table)[2:(n+1)], 
+                              'sep2', 
+                              names(table)[(n+2):(2*n+1)], 
+                              'sep3', 
+                              names(table)[(2*n+2):(3*n+1)])) %>%
+    set_header_df(mapping = head, key = "x") %>%
+    fontsize(size = 7, part = 'all') %>%
     theme_zebra(odd_header = "transparent", even_header = 'transparent') %>%
     hline(border = fp_border(width = .5, color = "#007FA6"), part = "body" ) %>%
     hline(border = fp_border(width = 1.5, color = "#007FA6"), part = "header" ) %>%
+    empty_blanks %>%
+    merge_h(part = 'header') %>%
+    merge_v(part = 'header') %>%
+    add_footer(param = footer) %>%
     width(j = 1, 1.5) %>%
-    width(j = -1, colwid) %>%
-    add_footer(param = footer)
-  
+    width(j = c(2, (n+3), (2*n+4)), .1) %>%
+    width(j = c(3:(n+2),  (n+4):(2*n+3), (2*n+5):(3*n+4)), colwid) %>%
+    align(align = 'center', part = "header")
   
   doc <- read_docx() %>%
     body_add_par(value = " ", style = "Normal") %>%
