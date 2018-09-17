@@ -7,6 +7,7 @@
 #' @param file output file path
 #' @param colwid column width
 #' @param footer footer text
+#' @param headnames list of strings for header column titles
 #'
 #' @import dplyr
 #' @import officer
@@ -16,17 +17,24 @@
 #' @export
 #'
 #' @examples
-tab2word <- function(table, file, footer, colwid = 1){
+tab2word <- function(table, file, footer, colwid = 1, headnames = NA){
   
   n <- 3 #this needs to be number of groups
   
+  if (is.na(headnames)){
   head <- c("sep1", "sep2", "sep3", names(table)) %>% tidy %>%
     mutate(names = c("", "", "", names(table)),
            colA = c('', '', '', names(table)[1], rep(attributes(table)$stat, n), rep(attributes(table)$comp, n), rep('p-value', n))
     )
+  } else {
+    
+    head <- c("sep1", "sep2", "sep3", names(table)) %>% tidy %>%
+      mutate(names = c("", "", "", names(table)),
+             colA = c('', '', '', names(table)[1], rep(headnames[1], n), rep(headnames[2], n), rep(headnames[3], n))
+      )
+  }
   
- 
-  tab <- table %>%
+   tab <- table %>%
     regulartable(col_keys = c(names(table)[1], 
                               'sep1', 
                               names(table)[2:(n+1)], 
