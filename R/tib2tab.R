@@ -10,7 +10,7 @@
 #' @param adjust a logical value indicating whether summary statistics should be adjusted or unadjusted by model covariates
 #'
 #' @import dplyr
-#' @importFrom glue str_glue
+#' @importFrom stringr str_glue
 #' @importFrom purrr map
 #' 
 #'
