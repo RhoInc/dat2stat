@@ -79,6 +79,7 @@ dat2tib <- function(data, model, outcome, trt,
                                          infer = TRUE)  %>%
                             as.data.frame(.) %>%
                             setNames(., c(trt_string, "estimate", "SE","df","lower_CL","upper_CL","t_ratio","p_value"))),
+           joint = map(ref, ~ joint_tests(.)), 
            comp = map(emm,  ~ contrast(.,
                                        method='pairwise') %>%
                         summary(., level = 0.95,
