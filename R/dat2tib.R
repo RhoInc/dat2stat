@@ -45,15 +45,21 @@ dat2tib <- function(data, model, outcome, trt,
   nest_var <- enquo(nest_var)  ## capture the nesting var as a quosure
   d <- data %>% group_by(!!nest_var) %>% nest() ## nest by the supplied nesting var
   
+  ### set up skim
+  skimr::skim_with(numeric = list(
+    gmean = gmean,
+    gsd = gsd,
+    hist = NULL
+  ))
+  
   d_mt <- d %>%
     mutate(summ = map(data, ~ .x %>%
                         group_by(!!trt) %>%
                         skimr::skim(!!outcome) %>%
+                        as.data.frame %>% 
                         select(!!trt, stat, value) %>%
-                        spread(stat, value) %>%
-                        select(!!trt, complete, missing, n, mean, sd, p0, p25, p50, p75, p100) %>%
-                        remove_rownames(.) %>%
-                        as.data.frame(.)),
+                        spread(stat, value) %>% 
+                        select(!!trt, n, complete, missing, everything())),
            mod = map(data, ~ with(., !! model)),
            ref = case_when(
              is.null(tran) ~ map(mod, ~ ref_grid(.,
