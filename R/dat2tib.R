@@ -13,12 +13,14 @@
 #' @return
 #' 
 #' @examples 
+#' \dontrun{
 #' dat2tib(data = cdisc_data, 
 #'         model = lm(aval ~ arm + age + sex),
 #'         outcome = aval,
 #'         trt = arm,
 #'         nest = param,
 #'         tran = "none")
+#'         }
 #' 
 #' @importFrom skimr skim
 #' @import emmeans
@@ -27,6 +29,7 @@
 #' @importFrom purrr map
 #' @import rlang
 #' @import tibble
+#' @importFrom broom glance
 #' 
 #' @export
 dat2tib <- function(data, model, outcome, trt,
@@ -61,6 +64,7 @@ dat2tib <- function(data, model, outcome, trt,
                         spread(stat, value) %>% 
                         select(!!trt, n, complete, missing, everything())),
            mod = map(data, ~ with(., !! model)),
+           fit_metrics = map(mod, ~ broom::glance(.)),
            ref = case_when(
              is.null(tran) ~ map(mod, ~ ref_grid(.,
                                                  type = "response")),

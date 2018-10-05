@@ -27,11 +27,13 @@ This function accepts data, grouping, and model specifications from the user and
 Tibble contains summary statistics, estimated marginal means, and contrasts for all possible combinations of nest_var and trt.
 }
 \examples{
+\dontrun{
 dat2tib(data = cdisc_data, 
         model = lm(aval ~ arm + age + sex),
         outcome = aval,
         trt = arm,
         nest = param,
         tran = "none")
+        }
 
 }
