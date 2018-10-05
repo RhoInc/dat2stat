@@ -17,6 +17,10 @@
 #' @return
 #'
 #' @examples
+#' \dontrun{
+#' # example goes here
+#' }
+#' 
 #' @export
 tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
   
