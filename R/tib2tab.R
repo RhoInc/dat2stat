@@ -122,7 +122,7 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
                           mutate(diff = str_glue(comp_fmt)) %>%
                           select(contrast, diff) %>%
                           spread(contrast, diff) ))%>%
-      select(-c(data, mod, ref, emm, emm_summ)) %>%
+      select(-c(data, mod, ref, emm, emm_summ, fit_metrics, joint)) %>%
       unnest
   } else if (adjust == T){
     mtab <- mtib %>%
@@ -145,8 +145,8 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
                           mutate(diff = str_glue(comp_fmt)) %>%
                           select(contrast, diff) %>%
                           spread(contrast, diff) )) %>%
-      select(-c(data, mod, ref, summ, emm)) %>%
-      unnest
+      select(-c(data, mod, ref, summ, emm, fit_metrics, joint))  %>%
+     unnest
     
   }
   
