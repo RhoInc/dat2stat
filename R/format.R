@@ -4,8 +4,6 @@
 #'
 #' @return A formatted vector
 #' @noRd
-#'
-#' @examples
 format_value_auto <- function(x){
   case_when(
     is.na(x) | x %in% c(Inf, -Inf) | is.nan(x) ~ ".",

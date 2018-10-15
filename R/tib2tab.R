@@ -13,12 +13,16 @@
 #' 
 #' 
 #' @import dplyr
-#' @importFrom glue str_glue
+#' @importFrom stringr str_glue
 #' @importFrom purrr map
 #' @importFrom pixiedust pval_string
 #' 
 #'
 #' @examples
+#' \dontrun{
+#' # example goes here
+#' }
+#' 
 #' @export
 #' 
 #' 

@@ -22,3 +22,9 @@ tib2tab(mtib, stat_fmt, comp_fmt, adjust = F)
 This function accepts a master tibble made in dat2tib and creates a summary table with one row per outcome variable 
 and summary statistics by treatment arms.
 }
+\examples{
+\dontrun{
+# example goes here
+}
+
+}
