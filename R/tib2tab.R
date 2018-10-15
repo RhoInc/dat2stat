@@ -108,7 +108,8 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
        mutate(p = map(comp, ~ .x %>%
                       mutate_at(vars(-c(1, p_value)), funs(format_value_auto(.))) %>%
                        mutate(contrast = str_glue("{contrast} p-value"),
-                              pval = str_glue("{pixiedust::pval_string(p_value)}"))  %>%
+                           #   pval = str_glue("{pixiedust::pval_string(p_value)}"))  %>%
+                              pval = p_value)  %>%
                        select(contrast, pval)  %>%
                        spread(contrast, pval)),
               comp = map(comp, ~ .x %>%
@@ -130,7 +131,8 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
              p = map(comp, ~ .x %>%
                        mutate_at(vars(-c(1, p_value)), funs(format_value_auto(.))) %>%
                        mutate(contrast = str_glue("{contrast} p-value"),
-                              pval = str_glue("{pixiedust::pval_string(p_value)}"))  %>%
+                             # pval = str_glue("{pixiedust::pval_string(p_value)}"))  %>%
+                              pval = p_value)  %>%
                        select(contrast, pval)  %>%
                        spread(contrast, pval)),
              comp = map(comp, ~ .x %>%
