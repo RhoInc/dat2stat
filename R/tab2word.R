@@ -1,7 +1,7 @@
 
 #' tab2word
 #' 
-#' This function accepts a table and outputs a formatted word document
+#' This function accepts a table made in tib2tab and outputs a formatted word document
 #'
 #' @param table a table
 #' @param file output file path
@@ -14,9 +14,29 @@
 #' @import flextable
 #' 
 #' @return
-#' @export
 #'
 #' @examples
+#' \dontrun{
+#' tib <- dat2tib(data = cdisc_data, 
+#'                model = lm(aval ~ arm + age + sex), 
+#'                outcome = aval, 
+#'                trt = arm, 
+#'                nest = param, 
+#'                tran='none')
+#'                
+#' tab <- tib2tab(mtib = tib, 
+#'         stat_fmt = "{mean} ({sd})", 
+#'         comp_fmt = "{estimate} ({lower_CL}, {upper_CL})")
+#'         
+#' tab2word(tab, 
+#'          file = 'tabletest.docx', 
+#'          footer = 'Table created with dat2stat R package', 
+#'          colwid = 1)
+#' }
+#' 
+#' @export
+#' 
+#' 
 tab2word <- function(table, file, footer, colwid = 1, headnames = NA){
   
   n <- attributes(table)$ngroup

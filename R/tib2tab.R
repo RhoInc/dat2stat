@@ -20,7 +20,16 @@
 #'
 #' @examples
 #' \dontrun{
-#' # example goes here
+#' tib <- dat2tib(data = cdisc_data, 
+#'                model = lm(aval ~ arm + age + sex), 
+#'                outcome = aval, 
+#'                trt = arm, 
+#'                nest = param, 
+#'                tran='none')
+#'                
+#' tib2tab(mtib = tib, 
+#'         stat_fmt = "{mean} ({sd})", 
+#'         comp_fmt = "{estimate} ({lower_CL}, {upper_CL})")
 #' }
 #' 
 #' @export
