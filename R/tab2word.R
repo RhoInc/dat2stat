@@ -19,7 +19,7 @@
 #' @examples
 tab2word <- function(table, file, footer, colwid = 1, headnames = NA){
   
-  n <- 3 #this needs to be number of groups
+  n <- attributes(table)$ngroup
   
   if (is.na(headnames[1])){
   head <- c("sep1", "sep2", "sep3", names(table)) %>% tidy %>%

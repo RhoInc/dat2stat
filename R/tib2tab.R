@@ -149,12 +149,13 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
      unnest
     
   }
-  
+  ngroups <- dim(mtib$summ[[1]])[1]
   stat_txt <- gsub("\\{|\\}", "", stat_fmt)
   comp_txt <- gsub("\\{|\\}", "", comp_fmt)
   
   attributes(mtab)$stat <- stat_txt
   attributes(mtab)$comp <- comp_txt
+  attributes(mtab)$ngroup <- ngroups
   
   return(mtab)
 
