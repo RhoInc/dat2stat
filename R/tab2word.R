@@ -12,6 +12,7 @@
 #' @import dplyr
 #' @import officer
 #' @import flextable
+#' @importFrom broom tidy
 #' 
 #' @return
 #'
