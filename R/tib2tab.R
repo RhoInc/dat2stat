@@ -116,8 +116,8 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
       mutate(summ = map(summ, ~.x %>%
                           mutate_at(vars(-1), funs(format_value_auto(.))) %>%
                           mutate(means = str_glue(stat_fmt)) %>%
-                          select(arm, means) %>%
-                          spread(arm, means))) %>%
+                          select(trt, means) %>%
+                          spread(trt, means))) %>%
        mutate(p = map(comp, ~ .x %>%
                       mutate_at(vars(-c(1, p_value)), funs(format_value_auto(.))) %>%
                        mutate(contrast = str_glue("{contrast} p-value"),
@@ -137,10 +137,10 @@ tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
     mtab <- mtib %>%
       mutate(emm_summ = map(emm_summ, ~.x %>%
                          mutate_at(vars(-1), funs(format_value_auto(.))) %>%
-                         select(arm, stat_vars) %>%
+                         select(trt, stat_vars) %>%
                          mutate(means = str_glue(stat_fmt)) %>%
-                         select(arm, means) %>%
-                         spread(arm, means)),
+                         select(trt, means) %>%
+                         spread(trt, means)),
              p = map(comp, ~ .x %>%
                        mutate_at(vars(-c(1, p_value)), funs(format_value_auto(.))) %>%
                        mutate(contrast = str_glue("{contrast} p-value"),
