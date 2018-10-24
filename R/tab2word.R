@@ -40,17 +40,18 @@
 tab2word <- function(table, file, footer, colwid = 1, headnames = NA){
   
   n <- attributes(table)$ngroup
+  n2 <- n*(n-1)/2
   
   if (is.na(headnames[1])){
   head <- c("sep1", "sep2", "sep3", names(table)) %>% tidy %>%
     mutate(names = c("", "", "", names(table)),
-           colA = c('', '', '', names(table)[1], rep(attributes(table)$stat, n), rep(attributes(table)$comp, n), rep('p-value', n))
+           colA = c('', '', '', names(table)[1], rep(attributes(table)$stat, n), rep(attributes(table)$comp, n2), rep('p-value', n2))
     )
   } else {
     
     head <- c("sep1", "sep2", "sep3", names(table)) %>% tidy %>%
       mutate(names = c("", "", "", names(table)),
-             colA = c('', '', '', names(table)[1], rep(headnames[1], n), rep(headnames[2], n), rep(headnames[3], n))
+             colA = c('', '', '', names(table)[1], rep(headnames[1], n2), rep(headnames[2], n2), rep(headnames[3], n2))
       )
   }
   
@@ -59,9 +60,9 @@ tab2word <- function(table, file, footer, colwid = 1, headnames = NA){
                               'sep1', 
                               names(table)[2:(n+1)], 
                               'sep2', 
-                              names(table)[(n+2):(2*n+1)], 
+                              names(table)[(n+2):(n+n2+1)], 
                               'sep3', 
-                              names(table)[(2*n+2):(3*n+1)])) %>%
+                              names(table)[(n+n2+2):(1+n+2*n2)])) %>%
     set_header_df(mapping = head, key = "x") %>%
     fontsize(size = 7, part = 'all') %>%
     theme_zebra(odd_header = "transparent", even_header = 'transparent') %>%
@@ -72,8 +73,8 @@ tab2word <- function(table, file, footer, colwid = 1, headnames = NA){
     merge_v(part = 'header') %>%
     add_footer(param = footer) %>%
     width(j = 1, 1.5) %>%
-    width(j = c(2, (n+3), (2*n+4)), .1) %>%
-    width(j = c(3:(n+2),  (n+4):(2*n+3), (2*n+5):(3*n+4)), colwid) %>%
+    width(j = c(2, (n+3), (n+n2+4)), .1) %>%
+    width(j = c(3:(n+2),  (n+4):(n+3+n2), (n+n2+5):(n+2*n2+4)), colwid) %>%
     align(align = 'center', part = "header")
   
   doc <- read_docx() %>%
