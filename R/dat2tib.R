@@ -62,7 +62,7 @@ dat2tib <- function(data, model, outcome, trt,
                         as.data.frame %>% 
                         select(!!trt, stat, value) %>%
                         spread(stat, value) %>% 
-                        select(!!trt, n, complete, missing, everything())),
+                        select(trt=!!trt, n, complete, missing, everything())),
            mod = map(data, ~ with(., !! model)),
            fit_metrics = map(mod, ~ broom::glance(.)),
            ref = case_when(
@@ -78,7 +78,7 @@ dat2tib <- function(data, model, outcome, trt,
                                          type = "response",
                                          infer = TRUE)  %>%
                             as.data.frame(.) %>%
-                            setNames(., c(trt_string, "estimate", "SE","df","lower_CL","upper_CL","t_ratio","p_value"))),
+                            setNames(., c("trt", "estimate", "SE","df","lower_CL","upper_CL","t_ratio","p_value"))),
            joint = map(ref, ~ joint_tests(.)), 
            comp = map(emm,  ~ contrast(.,
                                        method='pairwise') %>%
