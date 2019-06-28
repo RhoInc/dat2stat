@@ -9,6 +9,7 @@
 #' @param trt Treatment arm or grouping variable used in the model
 #' @param tran Specify how outcome was previously transformed prior to modeling 
 #' @param nest_var Grouping variable to be used for the data nesting
+#' @param contrast Specify if difference or ratio should be provided for group comparison
 #'
 #' @return
 #' 
@@ -18,7 +19,7 @@
 #'         model = lm(aval ~ arm + age + sex),
 #'         outcome = aval,
 #'         trt = arm,
-#'         nest = param,
+#'         nest_var = param,
 #'         tran = "none")
 #'         }
 #' 
@@ -32,7 +33,7 @@
 #' @importFrom broom glance
 #' 
 #' @export
-dat2tib <- function(data, model, outcome, trt,
+dat2tib <- function(data, model, outcome, trt, contrast,
                          tran = NULL,  
                          nest_var){
   # ci_level_mod = 0.95,
@@ -80,7 +81,11 @@ dat2tib <- function(data, model, outcome, trt,
                             as.data.frame(.) %>%
                             setNames(., c("trt", "estimate", "SE","df","lower_CL","upper_CL","t_ratio","p_value"))),
            joint = map(ref, ~ joint_tests(.)), 
-           comp = map(emm,  ~ contrast(.,
+           emm2 = case_when(
+             contrast == "diff" ~ emm, 
+             contrast == 'ratio' ~ regrid(emm, transform = 'log'),
+              TRUE ~ emm),
+           comp = map(emm2,  ~ contrast(.,
                                        method='pairwise') %>%
                         summary(., level = 0.95,
                                 adjust = "none",
