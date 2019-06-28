@@ -18,6 +18,8 @@ dat2tib(data, model, outcome, trt, tran = NULL, nest_var)
 \item{tran}{Specify how outcome was previously transformed prior to modeling}
 
 \item{nest_var}{Grouping variable to be used for the data nesting}
+
+\item{contrast}{Specify if difference or ratio should be provided for group comparison}
 }
 \value{
 
