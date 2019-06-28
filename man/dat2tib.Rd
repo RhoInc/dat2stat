@@ -4,7 +4,7 @@
 \alias{dat2tib}
 \title{dat2tib}
 \usage{
-dat2tib(data, model, outcome, trt, tran = NULL, nest_var)
+dat2tib(data, model, outcome, trt, tran = NULL, nest_var, contrast)
 }
 \arguments{
 \item{data}{A data frame}
