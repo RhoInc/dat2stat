@@ -82,9 +82,9 @@ dat2tib <- function(data, model, outcome, trt, contrast,
                             setNames(., c("trt", "estimate", "SE","df","lower_CL","upper_CL","t_ratio","p_value"))),
            joint = map(ref, ~ joint_tests(.)), 
            emm2 = case_when(
-             contrast == "diff" ~ emm, 
-             contrast == 'ratio' ~ regrid(emm, transform = 'log'),
-              TRUE ~ emm),
+             contrast == "diff" ~ emm,              
+             contrast == "ratio" ~ map(emm, ~regrid(., transform = 'log')),
+             TRUE ~ emm),
            comp = map(emm2,  ~ contrast(.,
                                        method='pairwise') %>%
                         summary(., level = 0.95,
@@ -93,7 +93,8 @@ dat2tib <- function(data, model, outcome, trt, contrast,
                                 infer = TRUE)  %>%
                         as.data.frame(.) %>%
                         setNames(., c("contrast", "estimate", "SE","df","lower_CL","upper_CL","t_ratio","p_value")))
-    )
+    ) %>%
+    select(-emm2)
   
   class(d_mt) <- append(class(d_mt), "masterTibble")
   
