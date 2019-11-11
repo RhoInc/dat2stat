@@ -33,6 +33,8 @@
 #' @importFrom broom glance
 #' 
 #' @export
+nest <- nest_legacy
+unnest <- unnest_legacy
 dat2tib <- function(data, model, outcome, trt, contrast,
                          tran = NULL,  
                          nest_var){

@@ -102,6 +102,8 @@
 #this version is using our autoformat function
 
 
+nest <- nest_legacy
+unnest <- unnest_legacy
 tib2tab <- function(mtib, stat_fmt, comp_fmt, adjust = F){
 
   stat_vars <- stat_fmt %>%
